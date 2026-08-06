@@ -1,0 +1,10 @@
+{
+  "name": "hylandia-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --filter @hylandia/site dev",
+    "build": "pnpm --filter @hylandia/store build && pnpm --filter @hylandia/site build",
+    "check": "pnpm -r check"
+  }
+}

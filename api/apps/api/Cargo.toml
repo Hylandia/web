@@ -1,0 +1,48 @@
+[package]
+name = "api"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "api"
+path = "src/main.rs"
+
+[dependencies]
+db = { path = "../../crates/db" }
+diesel = { workspace = true }
+diesel-async = { workspace = true }
+
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "signal", "sync"] }
+axum = { version = "0.7", features = ["json", "query"] }
+axum-extra = { version = "0.9", features = ["cookie", "typed-header"] }
+tower-http = { version = "0.5", features = ["trace", "cors"] }
+
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+
+sentry = { version = "0.37", default-features = false, features = ["backtrace", "contexts", "panic", "tracing", "reqwest", "rustls"] }
+sentry-tracing = { version = "0.37", features = ["backtrace"] }
+
+jsonwebtoken = "9"
+p256 = { version = "0.13", features = ["pkcs8", "ecdsa"] }
+uuid = { workspace = true }
+chrono = { workspace = true }
+ipnetwork = { workspace = true }
+dotenvy = { workspace = true }
+
+rand = "0.8"
+sha2 = "0.10"
+hex = "0.4"
+base64 = "0.22"
+url = "2"
+time = "0.3"
+
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }

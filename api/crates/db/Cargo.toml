@@ -1,0 +1,15 @@
+[package]
+name = "db"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = { workspace = true }
+diesel = { workspace = true }
+diesel-async = { workspace = true }
+diesel_migrations = { workspace = true }
+bb8 = { workspace = true }
+ipnetwork = { workspace = true }
+futures-util = { version = "0.3", features = ["async-await"] }
+uuid = { workspace = true }
+chrono = { workspace = true }
