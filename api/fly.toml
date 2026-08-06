@@ -16,7 +16,10 @@ primary_region = "iad"
   force_https = true
   auto_stop_machines = "stop"
   auto_start_machines = true
-  min_machines_running = 0
+  # Keep at least one machine warm: the site treats a failed /auth/me as
+  # "API unreachable" and hides the sign-in button entirely, so a cold
+  # start here would make auth silently disappear for the first visitor.
+  min_machines_running = 1
 
   [[http_service.checks]]
     method = "get"
