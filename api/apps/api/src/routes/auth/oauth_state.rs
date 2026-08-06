@@ -21,7 +21,7 @@ impl OauthState {
     }
 }
 
-/// Only relative, single-leading-slash paths are allowed — otherwise a
+/// Only relative, single-leading-slash paths are allowed, otherwise a
 /// crafted `redirect` query param could bounce the browser (with our
 /// session cookies already set) off to an attacker-controlled origin.
 pub fn sanitize_redirect_path(raw: Option<&str>) -> String {

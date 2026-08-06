@@ -1,5 +1,5 @@
 //! Migrations run through a plain sync `PgConnection` at startup, kept
-//! separate from the async `bb8` pool used for request handling — Diesel's
+//! separate from the async `bb8` pool used for request handling. Diesel's
 //! migration harness doesn't have an async variant.
 
 use diesel::pg::PgConnection;

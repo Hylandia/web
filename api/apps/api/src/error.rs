@@ -16,7 +16,7 @@ pub enum ApiError {
     NotFound,
 
     /// Surfaced from Hytale's authorization/token endpoints, or from failed
-    /// id_token validation — always the user's fault or a stale link, never
+    /// id_token validation. Always the user's fault or a stale link, never
     /// worth a 500 or a Sentry-grade log line.
     #[error("hytale sign-in failed: {0}")]
     HytaleAuth(String),
@@ -79,7 +79,7 @@ impl ApiError {
 }
 
 /// Used when an error surfaces outside a handler (e.g. extractor
-/// rejections), where there's no `RequestContext` to thread through — the
+/// rejections), where there's no `RequestContext` to thread through. The
 /// envelope still comes out the same shape, just with a fresh request id.
 impl IntoResponse for ApiError {
     fn into_response(self) -> Response {

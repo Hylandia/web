@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>Hylandia — Your Adventure Begins</title>
+	<title>Hylandia: Your Adventure Begins</title>
 </svelte:head>
 
 <section

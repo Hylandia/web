@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-    <title>{title} — Hylandia</title>
+    <title>{title} | Hylandia</title>
 </svelte:head>
 
 <section

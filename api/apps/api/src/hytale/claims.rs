@@ -5,7 +5,7 @@ pub struct HytaleProfile {
     pub username: String,
 }
 
-/// `iss`/`aud`/`exp` are intentionally not modeled here — `jsonwebtoken`
+/// `iss`/`aud`/`exp` are intentionally not modeled here: `jsonwebtoken`
 /// validates those against the raw token payload directly (per
 /// `Validation::set_issuer`/`set_audience`), independent of this struct.
 #[derive(Debug, Deserialize)]

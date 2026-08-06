@@ -61,7 +61,7 @@ impl DiscoveryCache {
             return Ok(key);
         }
 
-        // Key not found — maybe it rotated since our last fetch. Try once more.
+        // Key not found, maybe it rotated since our last fetch. Try once more.
         self.ensure_fresh(true).await?;
         self.lookup(kid).await.ok_or_else(|| anyhow::anyhow!("unknown signing key: {kid}"))
     }

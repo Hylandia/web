@@ -16,15 +16,24 @@ pub async fn create(
     expires_at: DateTime<Utc>,
 ) -> QueryResult<Session> {
     diesel::insert_into(sessions::table)
-        .values(NewSession { user_id, refresh_token_hash, user_agent, ip_address, expires_at })
+        .values(NewSession {
+            user_id,
+            refresh_token_hash,
+            user_agent,
+            ip_address,
+            expires_at,
+        })
         .get_result(conn)
         .await
 }
 
 /// Looks up a session by its refresh token hash, only if it hasn't been
-/// revoked or expired — callers should treat "not found" and "expired /
+/// revoked or expired. Callers should treat "not found" and "expired /
 /// revoked" identically (reject the refresh) rather than distinguishing them.
-pub async fn find_active_by_hash(conn: &mut AsyncPgConnection, hash: &str) -> QueryResult<Option<Session>> {
+pub async fn find_active_by_hash(
+    conn: &mut AsyncPgConnection,
+    hash: &str,
+) -> QueryResult<Option<Session>> {
     sessions::table
         .filter(sessions::refresh_token_hash.eq(hash))
         .filter(sessions::revoked_at.is_null())
@@ -35,7 +44,7 @@ pub async fn find_active_by_hash(conn: &mut AsyncPgConnection, hash: &str) -> Qu
 }
 
 /// Rotates the refresh token in place on the same session row (no token
-/// family / reuse-detection chain yet — see README for the caveat).
+/// family / reuse-detection chain yet, see README for the caveat, let's just hope user never changes their profile info (: ).
 pub async fn rotate(
     conn: &mut AsyncPgConnection,
     id: Uuid,
@@ -43,7 +52,10 @@ pub async fn rotate(
     new_expires_at: DateTime<Utc>,
 ) -> QueryResult<Session> {
     diesel::update(sessions::table.find(id))
-        .set((sessions::refresh_token_hash.eq(new_hash), sessions::expires_at.eq(new_expires_at)))
+        .set((
+            sessions::refresh_token_hash.eq(new_hash),
+            sessions::expires_at.eq(new_expires_at),
+        ))
         .get_result(conn)
         .await
 }
@@ -55,9 +67,16 @@ pub async fn revoke(conn: &mut AsyncPgConnection, id: Uuid) -> QueryResult<usize
         .await
 }
 
-pub async fn revoke_all_for_user(conn: &mut AsyncPgConnection, user_id: Uuid) -> QueryResult<usize> {
-    diesel::update(sessions::table.filter(sessions::user_id.eq(user_id)).filter(sessions::revoked_at.is_null()))
-        .set(sessions::revoked_at.eq(diesel::dsl::now))
-        .execute(conn)
-        .await
+pub async fn revoke_all_for_user(
+    conn: &mut AsyncPgConnection,
+    user_id: Uuid,
+) -> QueryResult<usize> {
+    diesel::update(
+        sessions::table
+            .filter(sessions::user_id.eq(user_id))
+            .filter(sessions::revoked_at.is_null()),
+    )
+    .set(sessions::revoked_at.eq(diesel::dsl::now))
+    .execute(conn)
+    .await
 }

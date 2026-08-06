@@ -14,7 +14,7 @@ pub struct Config {
     pub log_format: LogFormat,
     pub database_url: String,
 
-    /// `https://connect.accounts.hytale.com` — overridable for testing against a mock issuer.
+    /// `https://connect.accounts.hytale.com`, overridable for testing against a mock issuer.
     pub hytale_issuer: String,
     pub hytale_client_id: String,
     pub hytale_client_secret: String,
@@ -33,7 +33,7 @@ pub struct Config {
     pub refresh_token_ttl_secs: i64,
 
     /// Origin the browser is redirected back to after login (also the only
-    /// origin `redirect_after` is allowed to point at — see routes/auth/login.rs).
+    /// origin `redirect_after` is allowed to point at, see routes/auth/login.rs).
     pub frontend_url: String,
     /// `Domain=` attribute for session cookies. Empty means host-only.
     pub cookie_domain: String,
