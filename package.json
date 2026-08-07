@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "pnpm --filter @hylandia/site dev",
     "build": "pnpm --filter @hylandia/store build && pnpm --filter @hylandia/site build",
-    "check": "pnpm -r check"
+    "check": "pnpm -r check",
+    "deploy:site": "fly deploy . -c site/fly.toml --dockerfile site/Dockerfile --remote-only --build-arg PUBLIC_API_BASE_URL=https://api.hylandia.net"
   }
 }

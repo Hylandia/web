@@ -1,5 +1,12 @@
 # Hylandia marketing site
-# Deploy from web/: fly deploy .. -c site/fly.toml --dockerfile site/Dockerfile --build-arg PUBLIC_API_BASE_URL=https://api.hylandia.net
+#
+# Build context must be the monorepo root (web/), not site/ — the Dockerfile
+# copies pnpm-workspace.yaml, packages/store, and site/.
+# `dockerfile` below is relative to this file (site/Dockerfile).
+#
+# From web/:
+#   fly deploy . -c site/fly.toml --dockerfile site/Dockerfile --remote-only \
+#     --build-arg PUBLIC_API_BASE_URL=https://api.hylandia.net
 
 app = "hylandia-site"
 primary_region = "iad"

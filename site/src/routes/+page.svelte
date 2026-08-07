@@ -19,7 +19,7 @@
 </svelte:head>
 
 <section
-	class="relative -mt-28 flex min-h-[calc(100vh-1px)] flex-col items-center justify-center overflow-hidden bg-cover bg-center px-6 pt-28 pb-24 text-center"
+	class="relative -mt-20 flex min-h-[calc(100vh-1px)] flex-col items-center justify-center overflow-hidden bg-cover bg-center px-6 pt-20 pb-24 text-center lg:-mt-28 lg:pt-28"
 	style="background-image: linear-gradient(to bottom, rgba(18,10,8,0.2), var(--color-hy-ink) 90%), url({heroBgUrl});"
 >
 	<h1>

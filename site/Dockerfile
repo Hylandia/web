@@ -1,9 +1,9 @@
 # syntax=docker/dockerfile:1
 #
-# Build context is web/ (this Dockerfile is referenced as "site/Dockerfile"
-# from web/site/fly.toml, deployed with `fly deploy .. -c site/fly.toml
-# --dockerfile site/Dockerfile` from web/site/), so the pnpm workspace root
-# and packages/store are visible to `pnpm install`.
+# Build context must be web/ (monorepo root), not site/. From web/:
+#   fly deploy . -c site/fly.toml --dockerfile site/Dockerfile --remote-only \
+#     --build-arg PUBLIC_API_BASE_URL=https://api.hylandia.net
+# Or: pnpm deploy:site
 
 FROM node:22-bookworm-slim AS build
 WORKDIR /app

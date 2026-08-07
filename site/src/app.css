@@ -20,4 +20,5 @@ body {
 	background-color: var(--color-hy-ink);
 	color: var(--color-hy-cream);
 	font-family: var(--font-body);
+	overflow-x: hidden;
 }

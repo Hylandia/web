@@ -16,7 +16,7 @@
 	<SessionProvider apiBaseUrl={PUBLIC_API_BASE_URL}>
 		<div class="relative flex min-h-screen flex-col">
 			<Header />
-			<main class="flex-1 pt-28">
+			<main class="flex-1 pt-20 lg:pt-28">
 				{@render children()}
 			</main>
 			<Footer />

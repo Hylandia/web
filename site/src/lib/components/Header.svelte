@@ -25,18 +25,34 @@
 	];
 
 	let mobileOpen = $state(false);
+
+	function closeMobile() {
+		mobileOpen = false;
+	}
 </script>
 
+<svelte:window
+	onkeydown={(e) => {
+		if (e.key === 'Escape') closeMobile();
+	}}
+/>
+
 <header class="absolute inset-x-0 top-0 z-20">
-	<div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
-		<a href="/" class="flex items-center gap-3">
-			<img src={logoUrl} alt="Hylandia" width="40" height="40" class="h-10 w-auto drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]" />
-			<span class="font-display text-xl tracking-wide text-hy-cream">HYLANDIA</span>
+	<div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4">
+		<a href="/" class="flex min-w-0 items-center gap-2 sm:gap-3" onclick={closeMobile}>
+			<img
+				src={logoUrl}
+				alt="Hylandia"
+				width="40"
+				height="40"
+				class="h-9 w-auto drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)] sm:h-10"
+			/>
+			<span class="font-display text-lg tracking-wide text-hy-cream sm:text-xl">HYLANDIA</span>
 		</a>
 
-		<div class="flex items-center gap-3">
+		<div class="flex shrink-0 items-center gap-3">
 			{#if session.status === 'authenticated' && session.user}
-				<div class="hidden items-center gap-3 text-sm text-hy-parchment-light sm:flex">
+				<div class="hidden items-center gap-3 text-sm text-hy-parchment-light lg:flex">
 					<span>{session.user.username}</span>
 					<button
 						onclick={() => logout.mutate()}
@@ -48,7 +64,7 @@
 			{:else if session.status === 'guest'}
 				<a
 					href={session.loginHref('/')}
-					class="hidden rounded border border-hy-gold/50 px-4 py-1.5 font-display text-sm tracking-wide text-hy-gold-light transition hover:bg-hy-gold/10 sm:inline-block"
+					class="hidden rounded border border-hy-gold/50 px-4 py-1.5 font-display text-sm tracking-wide text-hy-gold-light transition hover:bg-hy-gold/10 lg:inline-block"
 				>
 					Sign in
 				</a>
@@ -56,9 +72,10 @@
 
 			<button
 				onclick={() => (mobileOpen = !mobileOpen)}
-				aria-label="Toggle menu"
+				aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
 				aria-expanded={mobileOpen}
-				class="rounded border border-hy-gold/40 p-2 text-hy-cream sm:hidden"
+				aria-controls="mobile-nav"
+				class="rounded border border-hy-gold/40 p-2 text-hy-cream transition hover:bg-hy-gold/10 lg:hidden"
 			>
 				{#if mobileOpen}
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2">
@@ -74,40 +91,55 @@
 	</div>
 
 	<nav
-		class="mx-auto hidden max-w-4xl items-center justify-center gap-8 bg-contain bg-center bg-no-repeat px-10 py-3 text-sm font-semibold tracking-wide text-hy-crimson uppercase sm:flex"
+		class="mx-auto hidden max-w-4xl items-center justify-center gap-5 bg-contain bg-center bg-no-repeat px-8 py-3 text-xs font-semibold tracking-wide text-hy-crimson uppercase xl:gap-8 xl:px-10 xl:text-sm lg:flex"
 		style="background-image: url({navBarUrl});"
 	>
 		{#each links as link (link.href)}
-			<a href={link.href} class="transition hover:text-hy-ember">{link.label}</a>
+			<a href={link.href} class="shrink-0 transition hover:text-hy-ember">{link.label}</a>
 		{/each}
 	</nav>
 
 	{#if mobileOpen}
-		<nav class="flex flex-col gap-1 bg-hy-ink/95 px-6 py-4 text-hy-parchment-light sm:hidden">
-			{#each links as link (link.href)}
-				<a href={link.href} onclick={() => (mobileOpen = false)} class="rounded px-2 py-2 hover:bg-hy-gold/10">
-					{link.label}
-				</a>
-			{/each}
+		<nav
+			id="mobile-nav"
+			class="border-t border-hy-gold/20 bg-hy-night/98 px-4 py-5 shadow-[0_12px_40px_rgba(0,0,0,0.55)] backdrop-blur-sm lg:hidden"
+		>
+			<ul class="mx-auto flex max-w-6xl flex-col gap-1">
+				{#each links as link (link.href)}
+					<li>
+						<a
+							href={link.href}
+							onclick={closeMobile}
+							class="block rounded px-3 py-3 font-display text-sm tracking-[0.14em] text-hy-parchment-light uppercase transition hover:bg-hy-gold/10 hover:text-hy-gold-light"
+						>
+							{link.label}
+						</a>
+					</li>
+				{/each}
+			</ul>
 
-			{#if session.status === 'authenticated' && session.user}
-				<button
-					onclick={() => {
-						mobileOpen = false;
-						logout.mutate();
-					}}
-					class="mt-2 rounded border border-hy-gold/40 px-3 py-2 text-left"
-				>
-					Log out
-				</button>
-			{:else if session.status === 'guest'}
-				<a
-					href={session.loginHref('/')}
-					class="mt-2 rounded border border-hy-gold/50 px-3 py-2 text-center font-display text-hy-gold-light"
-				>
-					Sign in
-				</a>
-			{/if}
+			<div class="mx-auto mt-4 max-w-6xl border-t border-hy-gold/15 px-3 pt-4">
+				{#if session.status === 'authenticated' && session.user}
+					<p class="mb-3 text-sm text-hy-parchment-light/80">{session.user.username}</p>
+					<button
+						onclick={() => {
+							closeMobile();
+							logout.mutate();
+						}}
+						class="w-full rounded border border-hy-gold/40 px-3 py-2.5 text-left text-hy-parchment-light transition hover:bg-hy-gold/10"
+					>
+						Log out
+					</button>
+				{:else if session.status === 'guest'}
+					<a
+						href={session.loginHref('/')}
+						onclick={closeMobile}
+						class="block w-full rounded border border-hy-gold/50 px-3 py-2.5 text-center font-display text-sm tracking-wide text-hy-gold-light transition hover:bg-hy-gold/10"
+					>
+						Sign in
+					</a>
+				{/if}
+			</div>
 		</nav>
 	{/if}
 </header>
