@@ -13,3 +13,8 @@ ipnetwork = { workspace = true }
 futures-util = { version = "0.3", features = ["async-await"] }
 uuid = { workspace = true }
 chrono = { workspace = true }
+tokio = { version = "1", features = ["rt", "time"] }
+tokio-postgres = "0.7"
+tokio-postgres-rustls = "0.14"
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
+webpki-roots = "1"

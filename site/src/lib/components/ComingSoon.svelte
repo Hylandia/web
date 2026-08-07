@@ -1,4 +1,6 @@
 <script lang="ts">
+    import logoUrl from '$lib/assets/logo.png?w=160&format=webp&url';
+
     let { title }: { title: string } = $props();
 </script>
 
@@ -9,7 +11,7 @@
 <section
     class="mx-auto flex min-h-[60vh] max-w-2xl flex-col items-center justify-center px-6 text-center"
 >
-    <img src="/brand/logo.png" alt="" class="h-16 w-auto opacity-80" />
+    <img src={logoUrl} alt="" width="64" height="64" class="h-16 w-auto opacity-80" />
     <h1 class="font-display mt-6 text-3xl tracking-wide text-hy-gold-light">
         {title}
     </h1>

@@ -6,6 +6,6 @@ pub mod schema;
 pub mod sessions;
 pub mod users;
 
-pub use pool::{build_pool, DbPool};
+pub use pool::{build_pool, spawn_keepalive, DbPool};
 
 pub use diesel_async::AsyncPgConnection;

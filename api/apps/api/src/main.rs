@@ -35,6 +35,7 @@ async fn main() -> anyhow::Result<()> {
     tracing::info!("database migrations applied");
 
     let pool = db::build_pool(&config.database_url).await?;
+    db::spawn_keepalive(pool.clone());
 
     let hytale = HytaleOidc::new(
         &config.hytale_issuer,
