@@ -54,11 +54,9 @@ Paste each PEM file's contents as a double-quoted, multi-line value in `.env`.
 
 ## Deploy
 
-```bash
-fly deploy -a hylandia-web-api --remote-only
-```
-
-Set secrets with `fly secrets set` rather than `[env]` in `fly.toml`.
+The site and API images are published to the Hylandia Nexus registry by
+`.github/workflows/publish-images.yaml`. Kubernetes deployment, immutable image
+digests, runtime configuration, and secrets are managed in `Hylandia/platform`.
 
 ## Known limitation
 

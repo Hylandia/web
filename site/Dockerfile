@@ -1,9 +1,7 @@
 # syntax=docker/dockerfile:1
 #
-# Build context must be web/ (monorepo root), not site/. From web/:
-#   fly deploy . -c site/fly.toml --dockerfile site/Dockerfile --remote-only \
-#     --build-arg PUBLIC_API_BASE_URL=https://api.hylandia.net
-# Or: pnpm deploy:site
+# Build context must be web/ (monorepo root), not site/. Images are published
+# by .github/workflows/publish-images.yaml and deployed by Hylandia/platform.
 
 FROM node:22-bookworm-slim AS build
 WORKDIR /app
